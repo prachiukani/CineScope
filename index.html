@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CineScope helps you discover movies worth watching." />
+    <meta name="theme-color" content="#090a0f" />
+    <!-- Tighten this policy as features are added; YouTube is needed for the later trailer modal. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.themoviedb.org; img-src 'self' data: https://image.tmdb.org; style-src 'self'; script-src 'self'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'" />
+    <title>CineScope — Discover your next watch</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#/" aria-label="CineScope home">
+        <span class="brand-mark" aria-hidden="true">▶</span>
+        CineScope
+      </a>
+      <form class="global-search" data-search-form role="search">
+        <label class="sr-only" for="movie-search">Search movies</label>
+        <input id="movie-search" data-search-input type="search" placeholder="Search movies or actors…" autocomplete="off" />
+        <button type="submit">Search</button>
+      </form>
+      <a class="watchlist-link" href="#/watchlist" aria-label="Open watchlist">Watchlist <span data-watchlist-count hidden>0</span></a>
+    </header>
+
+    <main id="app" tabindex="-1"></main>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

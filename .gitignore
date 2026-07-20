@@ -1,0 +1,6 @@
+# Personal TMDB credential. Commit the example file instead.
+js/config.js
+
+# Local editor and operating-system files
+.DS_Store
+.vscode/
