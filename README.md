@@ -101,17 +101,18 @@ Route or user event → state/API request → render → DOM event delegation �
 
 CineScope is frontend-only, so its TMDB read token is visible to the browser. This is expected for TMDB public-data applications; it is not a private user-data secret. Follow TMDB’s terms and rate limits.
 
-`js/config.js` is ignored to keep a personal development token out of commits. For a purely static public deployment, the browser still needs a token at runtime. You may deliberately publish a dedicated TMDB token in `config.js`, or use your host’s static-file configuration to provide it. Never put credentials for private systems in this project.
+`js/config.js` is ignored to keep the token out of the repository. For a purely static public deployment, the browser still needs a token at runtime, so the GitHub Pages workflow generates `config.js` from a repository secret at deploy time. Never put credentials for private systems in this project.
 
 ## Deploy
 
 ### GitHub Pages
 
-1. Create a GitHub repository and push this folder.
-2. Ensure the deployed site includes a valid `js/config.js` (see the credential note above).
-3. In **Settings → Pages**, select **Deploy from a branch**.
-4. Choose the `main` branch and `/ (root)` folder.
-5. Wait for GitHub Pages to publish, then open the URL shown in Settings.
+Deployment is handled by `.github/workflows/deploy.yml`, which runs on every push to `main`.
+
+1. In **Settings → Secrets and variables → Actions**, add a repository secret named `TMDB_READ_ACCESS_TOKEN` containing your TMDB v4 Read Access Token.
+2. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+3. Push to `main` (or run the workflow manually from the **Actions** tab).
+4. Wait for the workflow to finish, then open the URL shown in Settings → Pages.
 
 ### Netlify or Vercel
 

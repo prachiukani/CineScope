@@ -1,0 +1,48 @@
+# Deploys CineScope to GitHub Pages.
+# js/config.js is not committed, so it is generated here from the
+# TMDB_READ_ACCESS_TOKEN repository secret before the site is uploaded.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Generate js/config.js from secret
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$TMDB_READ_ACCESS_TOKEN" ]; then
+            echo "::error::Repository secret TMDB_READ_ACCESS_TOKEN is not set."
+            exit 1
+          fi
+          sed "s|PASTE_YOUR_TMDB_V4_READ_ACCESS_TOKEN_HERE|${TMDB_READ_ACCESS_TOKEN}|" \
+            js/config.example.js > js/config.js
+          grep -q "$TMDB_READ_ACCESS_TOKEN" js/config.js
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
